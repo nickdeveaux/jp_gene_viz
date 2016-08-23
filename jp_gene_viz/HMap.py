@@ -115,6 +115,8 @@ class HeatMap(object):
             self.display_data = self.data
         else:
             self.display_data = array_transform(self.data)
+        # zap any nan values
+        self.display_data[numpy.isnan(self.display_data)] == 0
         # reset color interpolation if data has changed.
         if (save_data.shape != self.display_data.shape or
             not numpy.allclose(save_data, self.display_data)):
@@ -122,6 +124,7 @@ class HeatMap(object):
         self.row_order = None
 
     def cluster_rows(self, method="ward"):
+        self.display_data[numpy.isnan(self.display_data)] == 0
         Z = linkage(self.display_data, method)
         self.row_order = leaves_list(Z)
 
