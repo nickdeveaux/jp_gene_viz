@@ -66,7 +66,7 @@ class ExpressionDisplay(traitlets.HasTraits):
     def load_data(self, heat_map, side_length=None):
         self.data_heat_map = heat_map
         # project to at most 200 rows and columns
-        rows = heat_map.row_names[:200]
+        rows = heat_map.row_names[:2000]
         cols = heat_map.col_names[:200]
         if side_length is not None:
             self.side_length = side_length
