@@ -9,6 +9,8 @@ jp_gene_viz/__init__.py
 jp_gene_viz/addenda.py
 jp_gene_viz/array_transforms.py
 jp_gene_viz/bindings.py
+jp_gene_viz/category_layout.py
+jp_gene_viz/cluster_layout.py
 jp_gene_viz/color_cursor.js
 jp_gene_viz/color_scale.py
 jp_gene_viz/color_widget.py
@@ -26,6 +28,7 @@ jp_gene_viz/genome_guide.py
 jp_gene_viz/genome_wiggle.py
 jp_gene_viz/getData.py
 jp_gene_viz/graph_diagram.py
+jp_gene_viz/grid_forest.py
 jp_gene_viz/gtf_format.py
 jp_gene_viz/helvetiker_regular.typeface.js
 jp_gene_viz/jp_cytoscape.js
@@ -38,11 +41,14 @@ jp_gene_viz/motif_data.py
 jp_gene_viz/multiple_network.py
 jp_gene_viz/paired_links.py
 jp_gene_viz/paired_networks.py
+jp_gene_viz/proxy_html5_canvas.py
 jp_gene_viz/scale.py
 jp_gene_viz/scatter3d.py
 jp_gene_viz/sequence_motifs.js
 jp_gene_viz/server_file_chooser.js
+jp_gene_viz/simple_tree.py
 jp_gene_viz/simple_upload_button.js
+jp_gene_viz/spoke_layout.py
 jp_gene_viz/three.js
 jp_gene_viz/three_curve.js
 jp_gene_viz/three_orbit.js
