@@ -23,6 +23,7 @@ from jp_gene_viz import simple_tree
 from jp_gene_viz import cluster_layout
 from jp_gene_viz import category_layout
 from jp_gene_viz import getData
+from threading import Timer
 import fnmatch
 import igraph
 import json
@@ -35,6 +36,8 @@ SELECTION = "SELECTION"
 
 CANVAS = "canvas"
 SVG = "SVG"
+
+MAX_FONT_SIZE = 40
 
 SKELETON = "skeleton"
 SPOKE = "spoke"
@@ -417,10 +420,10 @@ class NetworkDisplay(traitlets.HasTraits, JsonMixin):
         # label size sliders
         font_sl = self.font_size_slider = widgets.IntSlider(
             description="labels",
-            value=7, min=0, max=20, width="50px")
+            value=7, min=0, max=MAX_FONT_SIZE, width="50px")
         font_fsl = self.tf_font_size_slider = widgets.IntSlider(
             description="tf labels",
-            value=7, min=5, max=20, width="50px")
+            value=7, min=5, max=MAX_FONT_SIZE, width="50px")
         self.label_outline_checkbox = locb = self.make_checkbox("outlined", self.outlined_click, value=True)
         font_sl.layout.width = "200px"
         font_fsl.layout.width = "200px"
@@ -700,6 +703,10 @@ class NetworkDisplay(traitlets.HasTraits, JsonMixin):
         "Test whether a network is loaded."
         return (self.display_graph is not None and 
                 self.display_positions is not None)
+
+    def draw_later(self, fit=True, svg=None):
+        t = Timer(0.1, self.draw, [fit, svg])
+        t.start()
 
     def draw(self, fit=True, svg=None):
         "Draw the network."
@@ -1437,7 +1444,7 @@ class NetworkDisplay(traitlets.HasTraits, JsonMixin):
             if self.moving_node or self.moving_label:
                 self.moving_node = None
                 self.moving_label = None
-                self.draw()
+                self.draw_later()
             elif name.startswith("NODE_"):
                 # otherwords if it's a node, start moving it
                 nodename = name[5:]
@@ -1510,7 +1517,8 @@ def display_network(filename, N=None, threshhold=20.0, save_layout=True, show=Tr
         print ("Computing layout")
         if size < size_limit:
             # Use the slow but prettier method
-            layout = dLayout.group_layout(G)
+            (layout, rectangles) = dLayout.group_layout(G)
+            assert type(layout) is dict, type(layout)
         else:
             print ("Using fast layout because the network is large.")
             (layout, rectangles) = grid_forest.forest_layout(G)
